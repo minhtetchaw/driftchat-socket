@@ -14,7 +14,7 @@ const server = createServer(app);
 
 const io = new Server(server, {
     cors: {
-        origin: process.env.FRONTEND_URL || "http://localhost:4000",
+        origin: process.env.FRONTEND_URL || "https://driftchat-min-htet-thars-projects.vercel.app",
         methods: ["GET", "POST"],
     },
 });
@@ -26,7 +26,7 @@ io.on("connection", (socket) => {
 
     if (userId) {
         axios
-            .post("http://localhost:4000/api/user-status", {
+            .post(`${process.env.FRONTEND_URL}/api/user-status`, {
                 userId,
                 isOnline: true,
             })
@@ -50,7 +50,7 @@ io.on("connection", (socket) => {
 
         if (userId) {
             axios
-                .post("http://localhost:4000/api/user-status", {
+                .post(`${process.env.FRONTEND_URL}/api/user-status`, {
                     userId,
                     isOnline: false,
                     lastSeen: new Date().toISOString(),
