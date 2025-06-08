@@ -1,11 +1,13 @@
 {
   "name": "driftchat-socket",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Socket.IO server for DriftChat application",
+  "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node index.ts"
+    "start": "npm run build && node dist/index.ts",
+    "dev": "ts-node index.ts",
+    "build": "tsc"
+    
   },
   "keywords": [],
   "author": "",

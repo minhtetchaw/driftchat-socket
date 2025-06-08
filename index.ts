@@ -10,13 +10,25 @@ dotenv.config();
 const app = express();
 app.use(cors());
 
+//simple health check endpoint for Glitch
+app.get("/", (req, res) => {
+    res.json({
+        status: "Socket.IO server is running",
+        timestamp: new Date().toISOString(),
+    });
+});
+
 const server = createServer(app);
 
 const io = new Server(server, {
     cors: {
         origin: process.env.FRONTEND_URL || "https://driftchat-min-htet-thars-projects.vercel.app",
         methods: ["GET", "POST"],
+        credentials: true,
     },
+    //pingTimeout and pingInterval for better connection handling on Glitch
+    pingTimeout: 60000,
+    pingInterval: 25000,
 });
 
 io.on("connection", (socket) => {
@@ -60,7 +72,11 @@ io.on("connection", (socket) => {
     });
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
     console.log(`Socket.IO server running on port: ${PORT}`);
 });
+
+setInterval(() => {
+    console.log("Server heartbeat:", new Date().toISOString());
+}, 300000); // Every 5 minutes
